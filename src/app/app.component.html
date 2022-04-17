@@ -1,0 +1,63 @@
+<div class="container">
+    <header>
+        <div class="navbar navbar-dark shadow-sm" style="background-color:#CD5C5C; height: 60px;">
+            <div class="navbar-brand align-item-center d-flex">
+                <button routerLink="Products" class="btn" style="color:whitesmoke; padding-top:1px;">
+                <i style="font-size: 40px; margin-top:-40px;" class="fas fa-shipping-fast">&nbsp;</i>
+                <strong style="font-size: 25px;margin-top:-10px;">ShopList</strong>
+            </button>
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="searchTerm" (keyup) = "search($event)" 
+                    class="form-control" placeholder="What are you looking for?" style="width:300px" />
+                </div>
+                <span class="fa fa-search search-icon"></span>
+            </div>
+            <div class="dropdown">
+            <button class=" btn btn-primary dropbtn" style="margin-right:-100px">
+                <i style="font-size: 20px;" class="fas fa-user">&nbsp;</i> Welcome {{username}} !!
+            </button>
+            <div class="dropdown-content" *ngIf="username != 'Guest'">
+                <a routerLink="Login/user-profile">My Profile</a>
+                <a (click)="onLogout()">Logout</a>
+            </div>
+            <div class="dropdown-content" *ngIf="username == 'Guest'">
+                <a routerLink="Login/user-register">Register Yourself</a>
+                <a routerLink="Login/user-login">Login</a>
+            </div>
+            </div>
+            <button routerLink ="cart" class=" btn btn-primary " style="margin-right:-100px;">
+                <i style="font-size: 20px;" class="fas fa-cart-plus"></i>
+                <div style="font-size:10px; background-color:lightcoral;" class="badge">{{totalItem}}</div>
+            </button>
+        </div>
+    </header>
+    <router-outlet></router-outlet>
+</div>
+
+
+
+
+<!--<nav class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+        <li>
+            <a routerLink="Login/user-login">Login</a>
+        </li>
+        <li>
+            <a routerLink="Products">Back</a>
+        </li>
+        <li>
+            <a routerLink="Login/user-register">Register</a>
+        </li>
+    </ul>
+</nav>
+<router-outlet></router-outlet> -->
+
+
+<!-- <div class="container">
+    <app-product></app-product>
+</div>-->
+
+<!-- <input type="text" (keyup)="currentVal=$any($event.target).value" />
+    <button (click)="GetProduct()">Search</button>
+    <br>
+    {{currentVal}} -->

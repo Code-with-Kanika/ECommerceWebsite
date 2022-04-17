@@ -1,0 +1,50 @@
+.navbar-brand btn{
+  padding-top: 3px;
+
+}
+.form-control{
+    border-radius: 3px;
+    width: 600px;
+    margin-left:20px;
+}
+.search-icon{
+    position:absolute;
+    z-index: 10;
+    right: 36%;
+    top:28px;
+    color:#CD5C5C;
+}
+
+.dropbtn {
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: wheat;
+    min-width: 172px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  .dropdown:hover .dropbtn {background-color: #2F4F4F}

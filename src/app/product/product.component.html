@@ -1,0 +1,309 @@
+<div class="card-top container-fluid">
+    <div class="container d-flex">
+        <div class="item">
+            <a (click)="filter('')">
+                <img src="https://rukminim1.flixcart.com/flap/128/128/image/f15c02bfeb02d15d.png?q=100">
+                <h6>All Products</h6>
+            </a>
+        </div>
+        <div class="item">
+            <a (click)="filter('electronics')">
+                <img src="https://rukminim1.flixcart.com/flap/128/128/image/69c6589653afdb9a.png?q=100">
+                <h6>Electronics</h6>
+            </a>  
+        </div>
+        <div class="item">
+            <a (click)="filter('fashion')">
+                <img src="https://rukminim1.flixcart.com/flap/128/128/image/82b3ca5fb2301045.png?q=100">
+                <h6>Fashion</h6>
+            </a>
+        </div>
+        <div class="item">
+            <a (click)="filter('jewellery')">
+                <img src="https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg" style="margin-bottom:12px; margin-top:20px;">
+                <h6>Jewellery</h6>
+            </a>
+        </div>
+        <div style="display:inline-flex;"> 
+        <button class="btn btn-primary" *ngIf="r =='admin'" (click)=openPopupCreate()>
+        <i class="fa fa-plus" aria-hidden="true"></i> New</button>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="container" style="width:260px" *ngFor="let item of Flist | filter:searchKey:'productName'">
+        <div class="card col-md-3" style="width:250px; height:400px; margin-bottom:25px; margin-left:-10px ;">
+            <button class="btn" (click)="ProductProfile(item)">
+            <img [src]="createImgPath(item.productImg)" alt="Image Not Here" style="height:250px; width: 200px;">
+            <abbr title="{{item.productName}}" style="text-decoration: none;"><h5 style="white-space:nowrap;overflow:hidden; text-overflow: ellipsis; max-width:100ch;">{{item.productName}}</h5></abbr>
+            <abbr title="{{item.description}}" style="text-decoration: none;"><p style="white-space:nowrap;overflow:hidden; text-overflow: ellipsis; max-width:100ch;">{{item.description}}</p></abbr>
+            <p><strong>Price: </strong>Rs. {{item.productPrice}}</p> 
+            </button>
+            <!--<button class="btn btn-primary" *ngIf="r !='admin'" (click) = AddtoCart(item)>Add to cart</button>-->
+            <div style="display:inline" *ngIf="r =='admin'">
+                <button class="btn btn-warning" style="width:50%;" *ngIf="r =='admin'"
+                (click) = openPopupEdit(item)><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger" style="width:50%" *ngIf="r =='admin'" (click) = RemoveProduct(item)><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Edit-->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Edit your Product</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEdit()">
+            <div class="form-group row">
+             <label for="productName" class="col-sm-4 col-form-label">Product Name</label>
+             <div class="col-sm-8">
+              <input type="text" class="form-control" formControlName="productName" id="productName"> 
+             </div>
+            </div>
+            <div class="form-group row">
+              <label for="category" class="col-sm-4 col-form-label">Product Category</label>
+              <div class="col-sm-8">
+               <select class="form-control" formControlName="category" id="category"> 
+                  <option value="mens clothing">Men's Clothing</option>
+                  <option value="womens clothing">Women's clothing</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="jewellery">Jewellery</option>
+               </select>
+              </div>
+             </div>
+            <div class="form-group row">
+              <label for="description" class="col-sm-4 col-form-label">Product Description</label>
+              <div class="col-sm-8">
+               <textarea class="form-control" formControlName="description" id="description" rows="7" cols="70">
+                   </textarea> 
+              </div>
+             </div>
+            <div class="form-group row">
+              <label for="productPrice" class="col-sm-4 col-form-label">Product Price</label>
+              <div class="col-sm-8">
+               <input type="text" class="form-control" formControlName="productPrice" id="productPrice"> 
+              </div>
+            </div>
+            <app-upload (onUploadFinished)="uploadFinished($event)"></app-upload>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closePopupEdit()">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyleCreate}">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Create Product</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="createProfileForm" (ngSubmit)="onSubmit()">
+            <div class="form-group row">
+             <label for="productName" class="col-sm-4 col-form-label">Product Name</label>
+             <div class="col-sm-8">
+              <input type="text" class="form-control" formControlName="productName" id="productName"> 
+             </div>
+            </div>
+            <div class="form-group row">
+              <label for="category" class="col-sm-4 col-form-label">Product Category</label>
+              <div class="col-sm-8">
+               <select class="form-control" formControlName="category" id="category"> 
+                  <option value="mens clothing">Men's Clothing</option>
+                  <option value="womens clothing">Women's clothing</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="jewellery">Jewellery</option>
+               </select>
+              </div>
+             </div>
+            <div class="form-group row">
+              <label for="description" class="col-sm-4 col-form-label">Product Description</label>
+              <div class="col-sm-8">
+               <textarea class="form-control" formControlName="description" id="description" rows="7" cols="70">
+                   </textarea> 
+              </div>
+             </div>
+            <div class="form-group row">
+              <label for="productPrice" class="col-sm-4 col-form-label">Product Price</label>
+              <div class="col-sm-8">
+               <input type="number" class="form-control" formControlName="productPrice" id="productPrice"> 
+              </div>
+            </div>
+            <app-upload (onUploadFinished)="uploadFinished($event)"></app-upload>
+            <!--<div class="form-group row">
+                <label for="productImg" class="col-sm-4 col-form-label">Product Image</label>
+                <div class="col-sm-8">
+                 <input type="text" class="form-control" formControlName="productImg" id="productImg"> 
+                </div>
+            </div>-->
+            <div class="form-group row">
+                <label for="quantityLeft" class="col-sm-4 col-form-label">Quantity</label>
+                <div class="col-sm-8">
+                 <input type="number" class="form-control" formControlName="quantityLeft" id="quantityLeft"> 
+                </div>
+            </div>
+            
+            <!--<div class="row" style="margin-bottom:15px;">
+                <div class="col-md-3" style="display:contents">
+                    <div class="form-group row">
+                        <label for="productImg" class="col-sm-4 col-form-label">Product Image</label>
+                        <div class="col-sm-8">
+                            <input type="file" #file placeholder="Choose file" class="form-control" formControlName="productImg" id="productImg">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                  <span class="upload" *ngIf="progress > 0">
+                    {{progress}}%
+                  <span class="upload" *ngIf="message">
+                    {{message}}
+                    </span>
+                  </span>
+                </div>
+            </div> -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closePopupCreate()">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+        </form>
+    </div>
+    </div>
+</div>
+</div>
+
+
+<!--
+    <ng-template #CreateModal let-modal>
+    <div class="modal-header">
+     <h5 class="modal-title" id="CreateModalLabel">Create New Profile</h5>
+     <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+     </button>
+    </div>
+    <div class="modal-body">
+     <form [formGroup]="createProfileForm" (ngSubmit)="onSubmitNew()">
+      <div class="form-group row">
+       <label for="productName" class="col-sm-4 col-form-label">Product Name</label>
+       <div class="col-sm-8">
+        <input type="text" class="form-control" formControlName="productName" id="productName"> 
+       </div>
+      </div>
+      <div class="form-group row">
+        <label for="category" class="col-sm-4 col-form-label">Product Category</label>
+        <div class="col-sm-8">
+         <select class="form-control" formControlName="category" id="category"> 
+            <option value="mens clothing">Men's Clothing</option>
+            <option value="womens clothing">Women's clothing</option>
+            <option value="electronics">Electronics</option>
+            <option value="jewellery">Jewellery</option>
+         </select>
+        </div>
+       </div>
+      <div class="form-group row">
+        <label for="description" class="col-sm-4 col-form-label">Product Description</label>
+        <div class="col-sm-8">
+         <textarea class="form-control" formControlName="description" id="description" rows="7" cols="70">
+             </textarea> 
+        </div>
+       </div>
+      <div class="form-group row">
+        <label for="productPrice" class="col-sm-4 col-form-label">Product Price</label>
+        <div class="col-sm-8">
+         <input type="number" class="form-control" formControlName="productPrice" id="productPrice"> 
+        </div>
+       </div>
+       <div class="form-group row">
+        <label for="quantityLeft" class="col-sm-4 col-form-label">Quantity</label>
+        <div class="col-sm-8">
+         <input type="number" class="form-control" formControlName="quantityLeft" id="quantityLeft"> 
+        </div>
+       </div>
+       <div class="form-group row">
+        <label for="productImg" class="col-sm-4 col-form-label">Product Image</label>
+        <div class="col-sm-8">
+         <input type="text" class="form-control" formControlName="productImg" id="productImg"> 
+        </div>
+       </div>
+      <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+       <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+     </form>
+    </div>
+</ng-template>
+
+    <ng-template #editProfileModal let-modal>
+    <div class="modal-header">
+     <h5 class="modal-title" id="editProfileLabel">Edit Profile</h5>
+     <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+     </button>
+    </div>
+    <div class="modal-body">
+     <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEdit()">
+      <div class="form-group row">
+       <label for="productName" class="col-sm-4 col-form-label">Product Name</label>
+       <div class="col-sm-8">
+        <input type="text" class="form-control" formControlName="productName" id="productName"> 
+       </div>
+      </div>
+      <div class="form-group row">
+        <label for="category" class="col-sm-4 col-form-label">Product Category</label>
+        <div class="col-sm-8">
+         <select class="form-control" formControlName="category" id="category"> 
+            <option value="mens clothing">Men's Clothing</option>
+            <option value="womens clothing">Women's clothing</option>
+            <option value="electronics">Electronics</option>
+            <option value="jewellery">Jewellery</option>
+         </select>
+        </div>
+       </div>
+      <div class="form-group row">
+        <label for="description" class="col-sm-4 col-form-label">Product Description</label>
+        <div class="col-sm-8">
+         <textarea class="form-control" formControlName="description" id="description" rows="7" cols="70">
+             </textarea> 
+        </div>
+       </div>
+      <div class="form-group row">
+        <label for="productPrice" class="col-sm-4 col-form-label">Product Price</label>
+        <div class="col-sm-8">
+         <input type="text" class="form-control" formControlName="productPrice" id="productPrice"> 
+        </div>
+       </div>
+       
+      <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+       <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+     </form>
+    </div>
+</ng-template>
+    
+    <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Edit</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        H
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+  </ng-template>
+(searchcriteria)="searchThis($event)"
+    
+{{}} -->

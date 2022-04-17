@@ -1,0 +1,77 @@
+<form #RegisterForm="ngForm" (ngSubmit)="AdUser()">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Enter your Details</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group" [class.has-error]="UserName.invalid && UserName.touched"
+                [class.has-success]="UserName.valid">
+                <label for="UserName" class="control-label">Your Name</label>
+                <input id="UserName" required name="UserName" [(ngModel)]="user.UserName" type="text"
+                    class="form-control" #UserName="ngModel">
+                <span class="help-block" *ngIf="UserName.invalid && UserName.touched">
+                    User Name is Required
+                </span>
+            </div>
+            <div class="form-group" [class.has-error]="email.invalid && email.touched"
+                [class.has-success]="email.valid">
+                <label for="email" class="control-label">Email Id</label>
+                <input id="email" required [email]="user.email!==''" name="email" #email="ngModel"
+                    [(ngModel)]="user.email" type="text" class="form-control">
+
+                <span class="help-block" *ngIf="email.errors?.['required'] && email.touched">
+                    Email is Required
+                </span>
+                <span class="help-block" *ngIf="email.errors?.['email'] && email.touched">
+                    Email is Invalid
+                </span>
+            </div>
+
+            <!-- Password -->
+            <div ngModelGroup="passwordGroup" [class.has-error]="ConfirmPassword.touched && ConfirmPassword.invalid && !ConfirmPassword.errors?.['required']">
+                <div class="form-group" [class.has-error]="Password.invalid && Password.touched"
+                    [class.has-success]="Password.valid">
+
+                    <label for="Password"> Create Password</label>
+                    <input id="Password" required #Password="ngModel" name="Password" [(ngModel)]="user.Password" type="password" class="form-control" (input)="ConfirmPassword.control.updateValueAndValidity()">
+                    <span class="help-block" *ngIf="Password.invalid && Password.touched">
+                        Password is Required
+                    </span>
+                </div>
+
+                <div class="form-group" [class.has-error]="ConfirmPassword.invalid && ConfirmPassword.touched"
+                    [class.has-success]="ConfirmPassword.valid">
+                    <label for="ConfirmPassword"> Confirm Password</label>
+                    <input id="ConfirmPassword" appConfirmEqualValidator="Password" required #ConfirmPassword="ngModel"
+                        name="ConfirmPassword" [(ngModel)]="user.ConfirmPassword" type="password" class="form-control">
+                    <span class="help-block" *ngIf="ConfirmPassword.errors?.['required'] && ConfirmPassword.touched">
+                        Confirm Password is Required
+                    </span>
+                    <span class="help-block"
+                        *ngIf="ConfirmPassword.errors?.['notEqual'] && ConfirmPassword.touched && !ConfirmPassword.errors?.['required']">
+                        Password and ConfirmPassword does not match
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Role:</label>
+                <div class="form-control">
+                    <label class="radio-inline">
+                        <input type="radio" value="admin" name="Admin" [(ngModel)]="user.Role">
+                        Admin
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" value="user" name="User" [(ngModel)]="user.Role">
+                        User
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary"[disabled]="RegisterForm.invalid">Register</button>
+        </div>
+    </div>
+</form>
+{{RegisterForm.value | json}}
+<br>
+From User model : {{user | json}}

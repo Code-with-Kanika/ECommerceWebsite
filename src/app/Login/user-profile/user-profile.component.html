@@ -1,0 +1,36 @@
+<div class="container">
+<h3>Username: {{userDetails[0].userName}} <br>
+Email: {{userDetails[0].emailId}}<br>
+Phone-Number: {{userDetails[0].phoneNumber}}<br>
+</h3>
+</div>
+<br>
+
+<div class="container" *ngIf="orderDetails.length != 0">
+    <h3>Order Details:</h3><br>
+    <div class="card-table">
+        <div class="card-product">
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Sr. No</th>
+                        <th>OrderID</th>
+                        <th>Total Amount</th>
+                        <th>Order Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of orderDetails; let i =index"> 
+                        <td>{{i+1}}</td>
+                        <td>{{item.orderId}}</td>
+                        <td>{{item.totalAmount}}</td>
+                        <td>{{item.orderDate}}</td>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<div class="container" *ngIf="orderDetails.length == 0">
+    No Orders Done Yet.
+</div>
+
+

@@ -1,0 +1,30 @@
+<form #LoginForm="ngForm" (ngSubmit)="userLogin(LoginForm)"> 
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Enter your Login Details</h3>
+    </div>
+    <div class="panel-body">
+        <div class="form-group" [class.has-error]="emailcontrol.invalid && emailcontrol.touched">
+            <label for="EmailId" class="control-label">Email Id</label>
+            <input required id="EmailId" name="emailId" [(ngModel)]="emailId" type="email" class="form-control"  #emailcontrol= "ngModel">
+            <span class="help-block" *ngIf="emailcontrol.invalid && emailcontrol.touched">
+                Email is Required
+            </span>
+        </div>
+        <div class="form-group has-success" [class.has-error]="passwordcontrol.invalid && passwordcontrol.touched">
+            <label for="password">Password</label>
+            <input id="password" required #passwordcontrol= "ngModel" name="password" [(ngModel)]="password" type="password" class="form-control">
+            <span class="help-block" *ngIf="passwordcontrol.invalid && passwordcontrol.touched">
+                Password is Required
+            </span>
+        </div>
+        </div>
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="LoginForm.invalid">Login</button>
+        <a routerLink="Login/user-login/forgot-password">Forgot Password</a>
+        <br>
+        <br>
+        <button routerLink="Login/user-register" class="btn btn-primary">Not Registered?? Register Here..</button>
+    </div>
+</div>
+</form> 

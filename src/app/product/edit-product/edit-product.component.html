@@ -1,0 +1,45 @@
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content">
+  <div class="modal-header">
+      <h4 class="modal-title">Edit your Product</h4>
+  </div>
+  <div class="modal-body">
+      <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEdit()">
+          <div class="form-group row">
+           <label for="productName" class="col-sm-4 col-form-label">Product Name</label>
+           <div class="col-sm-8">
+            <input type="text" class="form-control" formControlName="productName" id="productName"> 
+           </div>
+          </div>
+          <div class="form-group row">
+            <label for="category" class="col-sm-4 col-form-label">Product Category</label>
+            <div class="col-sm-8">
+             <select class="form-control" formControlName="category" id="category"> 
+                <option value="mens clothing">Men's Clothing</option>
+                <option value="womens clothing">Women's clothing</option>
+                <option value="electronics">Electronics</option>
+                <option value="jewellery">Jewellery</option>
+             </select>
+            </div>
+           </div>
+          <div class="form-group row">
+            <label for="description" class="col-sm-4 col-form-label">Product Description</label>
+            <div class="col-sm-8">
+             <textarea class="form-control" formControlName="description" id="description" rows="7" cols="70">
+                 </textarea> 
+            </div>
+           </div>
+          <div class="form-group row">
+            <label for="productPrice" class="col-sm-4 col-form-label">Product Price</label>
+            <div class="col-sm-8">
+             <input type="text" class="form-control" formControlName="productPrice" id="productPrice"> 
+            </div>
+          </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="closePopupEdit()">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+  </div>
+</div>
